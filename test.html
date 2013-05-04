@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="scripts/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="http://connect.soundcloud.com/sdk.js"></script>
+		
+		
+		<link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
+	</head>
+	<body>
+		<script>
+			SC.initialize({
+				client_id: "05c0a3124f51da642f038a52344b3dfa"
+			});
+			
+			var track_url = 'http://soundcloud.com/flightfacilities/ff2002-2012decade';
+
+			SC.get('/resolve', { url: track_url }, function(track) {
+				// console.log(track.id);
+				SC.get("/groups/55517/tracks", {limit: 1}, function(tracks){
+				  alert("Latest track: " + tracks[0].id);
+				});
+				// SC.stream("/tracks/" + track.id, function(sound) {
+				// 	sound.play();
+				// });
+			});
+			// SC.get("/flightfacilities/ff2002-2012decade", {}, function(sound) {
+			// 	alert("Sound URI: " + sound.uri);
+			// 	$("#audio-test").attr("src", sound.uri);
+			// });
+		</script>
+	</body>
+</html>
