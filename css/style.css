@@ -7,10 +7,13 @@ body {
 #player {
 	background-color: #ececec;
 	position: fixed;
+	height: 100px;
+	width: 100%;
+	z-index: 1;
 }
 
 #list {
-	margin-top: 100px;
+	padding-top: 100px;
 }
 
 /* @group Buttons */
