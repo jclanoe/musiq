@@ -6,10 +6,11 @@ body {
 
 #player {
 	background-color: #ececec;
+	/*background-image: -webkit-linear-gradient(bottom, rgb(18,18,18) 24%, rgb(64,64,64) 62%, rgb(82,82,82) 81%);*/
 	position: fixed;
 	height: 100px;
 	width: 100%;
-	z-index: 1;
+	z-index: 9999;
 }
 
 #list {
@@ -58,6 +59,7 @@ li {
 	height: 66px;
 	padding-top: 10px;
 	padding-bottom: 10px;
+	background-color: #f0f0f0;
 }
 
 li span.cover {

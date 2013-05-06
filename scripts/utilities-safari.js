@@ -18,3 +18,10 @@ function startupTasks() {
     }
 }
 
+function performCommand(event) {
+	if (event.command == "openPopover") {
+		showPopover("com.musiq.popover", "com.musiq.popoverbutton");
+	}
+}
+
+safari.application.addEventListener("command", performCommand, false);

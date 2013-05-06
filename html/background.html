@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="../scripts/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="../scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="../scripts/credentials.js"></script>
+		<script type="text/javascript" src="../scripts/utilities.js"></script>
+		<script type="text/javascript" src="../scripts/app.js"></script>
+		<script type="text/javascript" src="../scripts/main.js"></script>
+		
+		<script type="text/javascript" src="../scripts/song.js"></script>
+		<script type="text/javascript" src="../scripts/queue.js"></script>
+		<script type="text/javascript" src="../scripts/player.js"></script>
+		
+		<script type="text/javascript" src="../scripts/soundcloud.js"></script>
+	</head>
+	<body>
+		<audio id="player" src="" controls="true" autoload="true">
+			
+		</audio>
+	</body>
+	<script type="text/javascript" charset="utf-8">
+
+		var SOUNDCLOUD_URL_REGEX = new RegExp("^(https?://(www\.)?)?soundcloud.com");
+		
+		SC.initialize({
+			client_id: CLIENT_ID_SOUNDCLOUD
+		});
+		
+		var queue = new Queue();
+		var player = new Player(queue);
+
+		// player.player();
+
+	</script>
+</html>
