@@ -3,95 +3,15 @@
 	<head>
 		<script type="text/javascript" src="../scripts/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="../scripts/jquery-ui.js"></script>
-		
+
 		<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen" />
 	</head>
 	<body>
 		<div id="player">
-			
+			<button id="add-song">Add Song</button>
 		</div>
 		<ul id="list">
-			<li>
-				<a class="close">&times;</a>
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
-			<li>
-				<a class="close">&times;</a>	
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
-			<li>
-				<a class="close">&times;</a>
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
-			<li>
-				<a class="close">&times;</a>
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
-			<li>
-				<a class="close">&times;</a>
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
-			<li>
-				<a class="close">&times;</a>
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
-			<li>
-				<a class="close">&times;</a>
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
-			<li>
-				<a class="close">&times;</a>
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
-			<li>
-				<a class="close">&times;</a>
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
-			<li>
-				<a class="close">&times;</a>
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
-			<li>
+			<li class="song">
 				<a class="close">&times;</a>
 				<span class="cover"></span>
 				<span class="info">
@@ -103,29 +23,44 @@
 	</body>
 	<script type="text/javascript" charset="utf-8">
 
-		$( "#list" ).sortable({
-			axis: "y",
-			start: function(event, ui) {
-				$('a.close').css('display', 'none');
-			},
-		});
-		
-		$("li").hover(
-			// Mouse In
-			function(event) {
-				$(this).find('a.close').css('display', 'block');
-			},
-			// Mouse Out
-			function(event) {
-				$(this).find('a.close').css('display', 'none');
-			}
-		);
+		function addSongToQueue(song) {
 
-		$('a.close').click(function() {
-			console.log("CLOSE");
-			$(this).hide();
-			$(this).parent().slideUp('fast');
+		}
+
+		$(document).ready(function() {
+			// Enable the sortable feature for the Queue list
+			$("#list").sortable({
+				axis: "y",
+				start: function(event, ui) {
+					$('a.close').css('display', 'none');
+				},
+			});
+
+			$("ul#list").on('mouseover', 'li', function(event) {
+				$(this).find('a.close').css('display', 'block');
+			});
+			$("ul#list").on('mouseleave', 'li', function(event) {
+				$(this).find('a.close').css('display', 'none');
+			});
+			$("ul#list").on('click', 'a.close', function() {
+				console.log("CLOSE");
+				$(this).hide();
+				$(this).parent().slideUp('fast');
+			});
+
+			$("#player").on('click', '#add-song', function() {
+				var list = $("ul#list");
+				list.append('<li class="song" style="display:none">\
+				<a class="close">&times;</a>\
+				<span class="cover"></span>\
+				<span class="info">\
+					<span class="title">Highway To Hell</span>\
+					<span class="artist">AC/DC</span>\
+				</span>\
+			</li>');
+				list.children().last().slideDown();
+			});
 		});
-		
+
 	</script>
 </html>
