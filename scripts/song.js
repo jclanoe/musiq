@@ -1,13 +1,12 @@
-function Song(url) {
+function Song(url, completionCallback) {
 	this.init = function() {
-		console.log(this);
 		if (!this.originUrl)
 			throw "Song must have a streaming URL";
 
 		// Detect the music provider to know how to build the Song object
 		this._detectProvider(self);
 	};
-	
+
 	this._buildSongInfo = function() {
 		var self = this;
 		if (this.provider == "soundcloud") {
@@ -19,27 +18,34 @@ function Song(url) {
 					self.title = track.title;
 					self.artist = track.user.username;
 					self.duration = track.duration;
+
+                    // Call the song completion callback
+                    if (completionCallback)
+                        completionCallback.call(queue, self);
 				}
+                else {
+                    throw "This song cannot be streamed"
+                }
 			});
 		}
 		else {
 			throw "Unknown Music Provider"
 		}
 	}
-	
+
 	this._detectProvider = function(isSecondDetection) {
 		// Try to detect a music provider with a URL pattern
-		
+
 		// We recorgnized the music provider
 		if (SOUNDCLOUD_URL_REGEX.test(this.originUrl)) {
 			this.provider = "soundcloud";
 		}
-		
+
 		if (this.provider) {
 			this._buildSongInfo(self);
 			return;
 		}
-		
+
 		if (!isSecondDetection) {
 			// The URL might be tinified
 			// Try to expand the URL with api.longurl.org
@@ -83,7 +89,7 @@ function Song(url) {
 	this.title = null;
 	this.artist = null;
 	this.duration = null;
-	
+
 	// Call the init function
 	this.init(this);
 }

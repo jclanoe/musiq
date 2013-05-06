@@ -1,46 +1,57 @@
 function Player(queue) {
+	// Init setup
+    this.self = this;
+	this._song = null;
+	this._audio = $("#player")[0];
+    if (queue)
+        this._queue = queue;
+
 	this.play = function() {
-		this._player.play();
+		this._audio.play();
 	};
-	this._playNextSong = function() {
-		if (song && song instanceof Song) {
-			this.song = song;
-			this._player.setAttribute("src", this.song.streamUrl);
+	this.playNextSong = function() {
+        var nextSong = this._queue.popNextSong();
+		if (nextSong) {
+			this._song = nextSong;
+			this._audio.setAttribute("src", this._song.streamUrl);
+            this._audio.play();
 			return this;
 		}
 		else {
-			throw "Object loaded in the Player is not a Song"
+			throw "There is not any more song to play"
 		}
 	};
 	this.pause = function() {
-		this._player.pause();
+		this._audio.pause();
 	};
 	this.stop = function() {
-		this._player.stop();
+		this._audio.stop();
 	};
 	this.currentTime = function() {
-		return this._player.currentTime;
+		return this._audio.currentTime;
 	};
 	this.goTo = function(time) {
-		if (time <= this._player.duration) {
-			this._player.currentTime = time;
+		if (time <= this._audio.duration) {
+			this._audio.currentTime = time;
 		}
 		else {
 			console.log("The time is longer than the song duration");
 		}
 	};
 	// Event Listener Callbacks
-	this.songEnded = function() {
-        this._playNextSong();
-	}
-	
-	// Init setup
-    this.queue = null;
-	this.song = null;
-    if (queue)
-        this.queue = queue;
-    
-	this._player = $("#player")[0];
-    // Set Listeners
-	this._player.addEventListener('ended', this.songEnded);
+	this._songEnded = function() {
+        this.playNextSong();
+    };
+    this._queueAddedSong = function(event) {
+        if (this._song == null) {
+            player.playNextSong();
+        }
+    };
+
+    // Setup Listeners
+    this._audio.addEventListener('ended', this._songEnded);
+    this._queue.addEventListener('added_song', this._queueAddedSong)
+    console.log(this._queue.events);
 }
+
+Player.prototype = new Dispatcher();

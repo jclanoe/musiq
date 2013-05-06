@@ -6,16 +6,7 @@ function showPopover(popoverId, toolbarItemId) {
         return po.identifier == popoverId;
     })[0];
     toolbarItem.popover = popover;
-    toolbarItem.showPopover();  
-}
-
-function startupTasks() {
-    // Open the database
-    db = openDatabase();
-    if (db != null) {
-        // Initialize the tables if necessary
-        createTables(db);
-    }
+    toolbarItem.showPopover();
 }
 
 function performCommand(event) {
@@ -24,4 +15,4 @@ function performCommand(event) {
 	}
 }
 
-safari.application.addEventListener("command", performCommand, false);
+// safari.application.addEventListener("command", performCommand, false);

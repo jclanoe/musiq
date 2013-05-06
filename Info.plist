@@ -32,7 +32,7 @@
 				<key>Identifier</key>
 				<string>com.musiq.popover</string>
 				<key>Width</key>
-				<real>400</real>
+				<real>1000</real>
 			</dict>
 		</array>
 		<key>Toolbar Items</key>

@@ -7,10 +7,14 @@
 		<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen" />
 	</head>
 	<body>
-		<div id="player">
-			<button id="add-song">Add Song</button>
+		<div id="topbar">
+			<!-- <button id="add-song">Add Song</button> -->
+			<input type="text" name="song-url" value="" id="song-url" placeholder="Paste link here">
 		</div>
-		<ul id="list">
+		<div id="player">
+
+		</div>
+		<ul id="queue">
 			<li class="song">
 				<a class="close">&times;</a>
 				<span class="cover"></span>
@@ -24,41 +28,58 @@
 	<script type="text/javascript" charset="utf-8">
 
 		function addSongToQueue(song) {
-
+			var htmlSong = '<li class="song" style="display:none">\
+				<a class="close">&times;</a>\
+				<span class="cover" style="background-image:url(' + song.artworkUrl + ');"></span>\
+				<span class="info">\
+					<span class="title">' + song.title + '</span>\
+					<span class="artist">' + song.artist + '</span>\
+				</span>\
+			</li>';
+			var queue = $("ul#queue");
+			queue.append(htmlSong);
+			queue.children().last().slideDown();
 		}
 
 		$(document).ready(function() {
 			// Enable the sortable feature for the Queue list
-			$("#list").sortable({
+			$("ul#queue").sortable({
 				axis: "y",
 				start: function(event, ui) {
 					$('a.close').css('display', 'none');
 				},
 			});
 
-			$("ul#list").on('mouseover', 'li', function(event) {
+			// Setup callbacks
+			$("#topbar").on('keypress', '#song-url', function(event) {
+				if (event.keyCode == 13) {
+					safari.extension.globalPage.contentWindow.queue.addSong(this.value);
+				}
+			});
+			$("ul#queue").on('mouseover', 'li', function(event) {
 				$(this).find('a.close').css('display', 'block');
 			});
-			$("ul#list").on('mouseleave', 'li', function(event) {
+			$("ul#queue").on('mouseleave', 'li', function(event) {
 				$(this).find('a.close').css('display', 'none');
 			});
-			$("ul#list").on('click', 'a.close', function() {
+			$("ul#queue").on('click', 'a.close', function() {
 				console.log("CLOSE");
 				$(this).hide();
 				$(this).parent().slideUp('fast');
 			});
 
-			$("#player").on('click', '#add-song', function() {
-				var list = $("ul#list");
-				list.append('<li class="song" style="display:none">\
-				<a class="close">&times;</a>\
-				<span class="cover"></span>\
-				<span class="info">\
-					<span class="title">Highway To Hell</span>\
-					<span class="artist">AC/DC</span>\
-				</span>\
-			</li>');
-				list.children().last().slideDown();
+			$("#topbar").on('click', '#add-song', function() {
+				var htmlSong = '<li class="song" style="display:none">\
+					<a class="close">&times;</a>\
+					<span class="cover"></span>\
+					<span class="info">\
+						<span class="title">Highway To Hell</span>\
+						<span class="artist">AC/DC</span>\
+					</span>\
+				</li>';
+				var queue = $("ul#queue");
+				queue.append(htmlSong);
+				queue.children().last().slideDown();
 			});
 		});
 

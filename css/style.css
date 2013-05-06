@@ -13,9 +13,41 @@ body {
 	z-index: 9999;
 }
 
-#list {
+#queue {
 	padding-top: 100px;
 }
+
+/* @group Add Song */
+
+#topbar {
+	
+}
+
+#add-song {
+	margin: 0;
+	height: 30px;
+}
+
+input#song-url {
+	height: 30px;
+	font-size: 18px;
+	padding-left: 6px;
+	text-align: left;
+	margin: 7px;
+	width: 70%;
+}
+
+/* @end */
+
+/* @group Player */
+
+div#player {
+	background-color: #555;
+}
+
+/* @end */
+
+/* @group Cells */
 
 /* @group Buttons */
 
@@ -45,8 +77,6 @@ body {
 }
 
 /* @end */
-
-/* @group Cells */
 
 ul {
 	margin: 0;
