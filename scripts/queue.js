@@ -4,6 +4,19 @@
 // The next song to be played is at the beginning
 
 function Queue() {
+    this._init = function() {
+    	if (this._checkBrowserSupport())
+    		this._initializeDB();
+        var popoverWindow = getPopoverWindow();
+        if (popoverWindow && popoverWindow.addSongToQueue) {
+            var queue = this.getQueue();
+            // Populate the queue with the songs stored in the database
+            $.each(queue, function(index, song) {
+                popoverWindow.addSongToQueue(song);
+            });
+        }
+    }
+
 	// Checks for browser support of the localStorage
 	this._checkBrowserSupport = function() {
 		if (typeof(localStorage) == 'undefined' ) {
@@ -84,6 +97,8 @@ function Queue() {
         console.log(this);
         // this.dispatchEvent('added_song');
         console.log("Song creation completed");
+        var popoverWindow = getPopoverWindow();
+        popoverWindow.addSongToQueue(song);
     };
 
 	this.addSong = function(songUrl) {
@@ -105,9 +120,22 @@ function Queue() {
 		}
 	};
 
+	this.moveSong = function(fromIndex, toIndex) {
+		// Removes the song at the index passed as a parameter
+		// Returns the new queue
+		var queue = this.getQueue();
+		try {
+            queue.move(fromIndex, toIndex);
+			this.setQueueFromList(queue);
+			return queue;
+		}
+		catch (errorCode) {
+			return false
+		}
+	};
+
 	// Init setup
-	if (this._checkBrowserSupport())
-		this._initializeDB();
+    this._init();
 }
 
 Queue.prototype = new Dispatcher();

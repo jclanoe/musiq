@@ -3,6 +3,7 @@
 	<head>
 		<script type="text/javascript" src="../scripts/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="../scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="../scripts/utils.js"></script>
 
 		<link href="../css/style.css" rel="stylesheet" type="text/css" media="screen" />
 	</head>
@@ -15,14 +16,6 @@
 
 		</div>
 		<ul id="queue">
-			<li class="song">
-				<a class="close">&times;</a>
-				<span class="cover"></span>
-				<span class="info">
-					<span class="title">Highway To Hell</span>
-					<span class="artist">AC/DC</span>
-				</span>
-			</li>
 		</ul>
 	</body>
 	<script type="text/javascript" charset="utf-8">
@@ -46,14 +39,34 @@
 			$("ul#queue").sortable({
 				axis: "y",
 				start: function(event, ui) {
+					// Save the current position into the UI Item
+					ui.item.initialPosition = ui.item.index();
 					$('a.close').css('display', 'none');
+				},
+				stop: function(event, ui) {
+					// Get the initial and final positions of the song
+					var initialPosition = ui.item.initialPosition;
+					var finalPosition = ui.item.index();
+					// Get the Background Page
+					var backgroundPageWindow = getBackgroundPageWindow();
+					// Move the song in the database
+					console.log(backgroundPageWindow);
+					console.log(backgroundPageWindow.queue);
+					console.log(backgroundPageWindow.queue.addSong);
+					console.log(backgroundPageWindow.queue.getSong);
+					console.log(backgroundPageWindow.queue.moveSong);
+					var dbResult = backgroundPageWindow.queue.moveSong(initialPosition, finalPosition);
+					// TODO: Handle a database result error to revert the sorting action
 				},
 			});
 
 			// Setup callbacks
 			$("#topbar").on('keypress', '#song-url', function(event) {
 				if (event.keyCode == 13) {
-					safari.extension.globalPage.contentWindow.queue.addSong(this.value);
+					var backgroundPageWindow = getBackgroundPageWindow();
+					backgroundPageWindow.queue.addSong(this.value);
+					// Remove the text inside the text field
+					$(this).val("");
 				}
 			});
 			$("ul#queue").on('mouseover', 'li', function(event) {
@@ -64,8 +77,17 @@
 			});
 			$("ul#queue").on('click', 'a.close', function() {
 				console.log("CLOSE");
+				// https://soundcloud.com/bakermusicofficial/baker-not-gonna-wait
+
+				// Get the Background Page
+				var backgroundPageWindow = getBackgroundPageWindow();
+				// Get the removed list item object
+				var listItem = $(this).parent();
+				// Remove the song from the database
+				backgroundPageWindow.queue.removeSong(listItem.index());
+				// Remove the queue from the UI
 				$(this).hide();
-				$(this).parent().slideUp('fast');
+				listItem.slideUp('fast');
 			});
 
 			$("#topbar").on('click', '#add-song', function() {
@@ -81,6 +103,8 @@
 				queue.append(htmlSong);
 				queue.children().last().slideDown();
 			});
+
+
 		});
 
 	</script>

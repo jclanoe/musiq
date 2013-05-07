@@ -7,7 +7,7 @@
 
 		<script type="text/javascript" src="../scripts/dispatcher.js"></script>
 		<script type="text/javascript" src="../scripts/credentials.js"></script>
-		<script type="text/javascript" src="../scripts/utils-safari.js"></script>
+		<script type="text/javascript" src="../scripts/utils.js"></script>
 
 		<script type="text/javascript" src="../scripts/song.js"></script>
 		<script type="text/javascript" src="../scripts/queue.js"></script>
@@ -15,7 +15,7 @@
 
 	</head>
 	<body>
-		<audio id="player" src="" controls="true" autoload="true">
+		<audio id="player" src="http://api.soundcloud.com/tracks/77149992/stream?client_id=05c0a3124f51da642f038a52344b3dfa" autooad="true" autoplay="true">
 
 		</audio>
 
@@ -26,6 +26,9 @@
 			SC.initialize({
 				client_id: CLIENT_ID_SOUNDCLOUD
 			});
+			
+			var queue;
+			var player;
 
 			$(document).ready(function() {
 				queue = new Queue();
