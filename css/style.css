@@ -11,16 +11,21 @@ body {
 	height: 100px;
 	width: 100%;
 	z-index: 9999;
+	top: 50px;
 }
 
 #queue {
-	padding-top: 100px;
+	padding-top: 150px;
 }
 
 /* @group Add Song */
 
 #topbar {
-	
+	position: fixed;
+	z-index: 10000;
+	height: 50px;
+	width: 100%;
+	background-color: #e4e4e4;
 }
 
 #add-song {
