@@ -9,9 +9,6 @@ function Player(queue) {
 	this.play = function() {
         if (this._audio.getAttribute('src') == null) {
             console.log("NEXT SONG…");
-            var popoverWindow = getPopoverWindow();
-            console.log(popoverWindow);
-            popoverWindow.popSongFromQueue();
             this.playNextSong();
         }
         else {
@@ -23,6 +20,11 @@ function Player(queue) {
         console.log(nextSong);
 		if (nextSong) {
             console.log("PLAYING NEXT SONG NOW");
+
+            var popoverWindow = getPopoverWindow();
+            console.log(popoverWindow);
+            popoverWindow.popSongFromQueue();
+
 			this._song = nextSong;
 			this._audio.setAttribute('src', this._song.streamUrl);
             console.log(this._audio.getAttribute('src'));
@@ -37,9 +39,15 @@ function Player(queue) {
 		this._audio.pause();
 	};
 	this.stop = function() {
-		player._audio.stop();
+		player._audio.pause();
         player._audio.removeAttribute("src");
 	};
+    this.next = function() {
+        player._song = null;
+        player._audio.pause();
+        player._audio.removeAttribute("src");
+        player.playNextSong();
+    };
 	this.currentTime = function() {
 		return this._audio.currentTime;
 	};
