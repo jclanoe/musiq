@@ -13,7 +13,8 @@
 			<input type="text" name="song-url" value="" id="song-url" placeholder="Paste link here">
 		</div>
 		<div id="player">
-
+			<input type="button" name="play" value="Play" id="play">
+			<input type="button" name="next" value="Next" id="next">
 		</div>
 		<ul id="queue">
 		</ul>
@@ -21,17 +22,34 @@
 	<script type="text/javascript" charset="utf-8">
 
 		function addSongToQueue(song) {
-			var htmlSong = '<li class="song" style="display:none">\
-				<a class="close">&times;</a>\
-				<span class="cover" style="background-image:url(' + song.artworkUrl + ');"></span>\
-				<span class="info">\
-					<span class="title">' + song.title + '</span>\
-					<span class="artist">' + song.artist + '</span>\
-				</span>\
-			</li>';
-			var queue = $("ul#queue");
-			queue.append(htmlSong);
-			queue.children().last().slideDown();
+			if (song) {
+				console.log(song);
+				var artworkUrl = song.artworkUrl ? song.artworkUrl : "";
+				var htmlSong = '<li class="song" style="display:none">\
+					<a class="close">&times;</a>\
+					<span class="cover" style="background-image:url(' + artworkUrl + ');"></span>\
+					<span class="info">\
+						<span class="title">' + song.title + '</span>\
+						<span class="artist">' + song.artist + '</span>\
+					</span>\
+				</li>';
+				var queue = $("ul#queue");
+				queue.append(htmlSong);
+				queue.children().last().slideDown();
+			}
+			else {
+				console.log("ERROR: The song addded to the queue is null");
+			}
+		}
+
+		function popSongFromQueue() {
+			var firstSong = $("ul#queue li:first");
+			console.log(firstSong);
+			if (firstSong) {
+				firstSong.slideUp('fast', function() {
+					$(this).remove();
+				});
+			}
 		}
 
 		$(document).ready(function() {
@@ -50,11 +68,6 @@
 					// Get the Background Page
 					var backgroundPageWindow = getBackgroundPageWindow();
 					// Move the song in the database
-					console.log(backgroundPageWindow);
-					console.log(backgroundPageWindow.queue);
-					console.log(backgroundPageWindow.queue.addSong);
-					console.log(backgroundPageWindow.queue.getSong);
-					console.log(backgroundPageWindow.queue.moveSong);
 					var dbResult = backgroundPageWindow.queue.moveSong(initialPosition, finalPosition);
 					// TODO: Handle a database result error to revert the sorting action
 				},
@@ -90,7 +103,7 @@
 				listItem.slideUp('fast');
 			});
 
-			$("#topbar").on('click', '#add-song', function() {
+			$('#topbar').on('click', '#add-song', function() {
 				var htmlSong = '<li class="song" style="display:none">\
 					<a class="close">&times;</a>\
 					<span class="cover"></span>\
@@ -102,6 +115,11 @@
 				var queue = $("ul#queue");
 				queue.append(htmlSong);
 				queue.children().last().slideDown();
+			});
+
+			$('#player').on('click', '#play', function() {
+				var backgroundPageWindow = getBackgroundPageWindow();
+				backgroundPageWindow.player.play();
 			});
 
 

@@ -4,16 +4,28 @@
 // The next song to be played is at the beginning
 
 function Queue() {
-    this._init = function() {
-    	if (this._checkBrowserSupport())
-    		this._initializeDB();
+
+    this._populateQueue = function() {
+        console.log("POPULATING");
         var popoverWindow = getPopoverWindow();
         if (popoverWindow && popoverWindow.addSongToQueue) {
             var queue = this.getQueue();
+            console.log(queue);
             // Populate the queue with the songs stored in the database
             $.each(queue, function(index, song) {
                 popoverWindow.addSongToQueue(song);
             });
+            return true;
+        }
+        else
+            return false;
+    }
+
+    this._init = function() {
+    	if (this._checkBrowserSupport())
+    		this._initializeDB();
+        if (!this._populateQueue()) {
+            setTimeout(this._populateQueue, 1000);
         }
     }
 

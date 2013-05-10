@@ -1,6 +1,13 @@
 
 EXTENSION_SCHEME = document.location.href.split("://")[0];
 
+function isSafari() {
+    return EXTENSION_SCHEME == 'safari-extension';
+}
+
+function isChrome() {
+    return EXTENSION_SCHEME == 'chrome-extension';
+}
 
 function getPopoverWindow() {
     if (EXTENSION_SCHEME == 'safari-extension') {

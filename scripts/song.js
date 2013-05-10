@@ -12,6 +12,7 @@ function Song(url, completionCallback) {
 		if (this.provider == "soundcloud") {
 			SC.get('/resolve', { url: this.url }, function(track) {
 				if (track && track.streamable && track.stream_url) {
+                    console.log(track);
 					self.streamUrl = track.stream_url + "?client_id=" + CLIENT_ID_SOUNDCLOUD;
 					self.providerSongId = track.id;
 					self.artworkUrl = track.artwork_url;
