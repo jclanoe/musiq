@@ -80,7 +80,7 @@ function Player(queue) {
     }
     else if (isSafari()) {
         var popoverWindow = getPopoverWindow();
-        popoverWindow.$('body').append('<audio id="audioplayer" autooad="true"></audio>')
+        popoverWindow.$('body').append('<audio id="audioplayer" autoload="true"></audio>')
         this._audio = popoverWindow.$('#audioplayer')[0];
     }
 
